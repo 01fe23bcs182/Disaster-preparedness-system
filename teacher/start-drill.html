@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Start Drill</title>
+<link rel="stylesheet" href="../css/style.css">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="../js/firebase-config.js"></script>
+<script>
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+auth.onAuthStateChanged(user => {
+    if(!user){
+        window.location.href = '../index.html';
+    }
+});
+
+const startBtn = document.createElement('button');
+startBtn.textContent = "Start Drill";
+document.body.appendChild(startBtn);
+
+const endBtn = document.createElement('button');
+endBtn.textContent = "End Drill";
+document.body.appendChild(endBtn);
+
+const statusList = document.createElement('ul');
+document.body.appendChild(statusList);
+
+// Start drill
+startBtn.onclick = () => {
+    db.collection('drills').doc('current').set({
+        active: true,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    alert("Drill started! Students will see a popup.");
+}
+
+// End drill
+endBtn.onclick = () => {
+    db.collection('drills').doc('current').get().then(doc => {
+        if(doc.exists){
+            const data = doc.data();
+            // Save final report
+            db.collection('drills').add({
+                report: data,
+                endedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            // Delete current drill
+            db.collection('drills').doc('current').delete();
+            alert("Drill ended and report saved!");
+            statusList.innerHTML = '';
+        }
+    });
+}
+
+// Live status update
+db.collection('drills').doc('current')
+.onSnapshot(doc => {
+    if(doc.exists){
+        const data = doc.data();
+        statusList.innerHTML = '';
+        for(const uid in data){
+            if(uid !== 'active' && uid !== 'timestamp'){
+                const li = document.createElement('li');
+                li.textContent = uid + ": " + data[uid];
+                statusList.appendChild(li);
+            }
+        }
+    }
+});
+</script>
+</body>
+</html>
 
