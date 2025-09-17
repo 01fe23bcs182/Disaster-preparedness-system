@@ -4,23 +4,19 @@
 <meta charset="UTF-8">
 <title>Student Dashboard</title>
 <link rel="stylesheet" href="../css/style.css">
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<script src="../js/firebase-config.js"></script>
 <script src="../js/student.js" defer></script>
 </head>
 <body>
 <h2>Welcome Student</h2>
-<button id="logout">Logout</button>
+
 <h3>Lessons</h3>
-<ul id="lessons-list">
-  <li>Earthquake Safety</li>
-  <li>Fire Safety</li>
-  <li>Flood Safety</li>
+<ul>
+  <li><a href="lessons.html">Earthquake Safety</a></li>
+  <li><a href="lessons.html">Fire Safety</a></li>
 </ul>
+
 <h3>Quizzes</h3>
-<ul id="quizzes-list">
+<ul>
   <li><a href="quizzes.html">Earthquake Quiz</a></li>
   <li><a href="quizzes.html">Fire Quiz</a></li>
 </ul>
@@ -28,4 +24,3 @@
 <button id="im-safe">I’m Safe</button>
 </body>
 </html>
-
