@@ -1,30 +1,14 @@
-const logoutBtn = document.getElementById('logout');
-const startDrillBtn = document.getElementById('start-drill');
-const studentStatusList = document.getElementById('student-status');
+const startBtn = document.createElement('button');
+startBtn.textContent = "Start Drill";
+document.body.appendChild(startBtn);
 
-logoutBtn.addEventListener('click', () => {
-  auth.signOut().then(() => {
-    window.location.href = '../index.html';
-  });
-});
+const endBtn = document.createElement('button');
+endBtn.textContent = "End Drill";
+document.body.appendChild(endBtn);
 
-startDrillBtn.addEventListener('click', () => {
-  db.collection('drills').doc('current').set({active: true});
-  alert('Drill started!');
-});
+const statusList = document.getElementById('student-status');
 
-// Show student status
-db.collection('drills').doc('current')
-.onSnapshot((doc) => {
-  if(doc.exists){
-    studentStatusList.innerHTML = '';
-    const data = doc.data();
-    for(const uid in data){
-      if(uid !== 'active'){
-        const li = document.createElement('li');
-        li.textContent = uid + ': ' + data[uid];
-        studentStatusList.appendChild(li);
-      }
-    }
-  }
-});
+startBtn.onclick = () => alert("Drill started (simulation).");
+endBtn.onclick = () => alert("Drill ended and report saved (simulation).");
+
+// You can simulate live student status updates if needed
