@@ -1,16 +1,21 @@
 'use strict';
 
 // Firebase config
+// Your Firebase config (from Firebase console)
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "SENDER_ID",
-  appId: "APP_ID"
+  apiKey: "AIzaSyDltjsOUXO9APY-2d5QvJFd2iyCsA2iREc",
+  authDomain: "disaster-preparedness-sy-6b6fe.firebaseapp.com",
+  projectId: "disaster-preparedness-sy-6b6fe",
+  storageBucket: "disaster-preparedness-sy-6b6fe.appspot.com",
+  messagingSenderId: "760849452390",
+  appId: "1:760849452390:web:453f13c470286c01240ca7",
+  measurementId: "G-8X9D8DXSJ1"
 };
+
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
+
 
 function by(id){ return document.getElementById(id); }
 
