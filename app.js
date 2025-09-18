@@ -1,6 +1,5 @@
 'use strict';
 
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDltjsOUXO9APY-2d5QvJFd2iyCsA2iREc",
   authDomain: "disaster-preparedness-sy-6b6fe.firebaseapp.com",
@@ -14,7 +13,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// ----------------- Login -----------------
+// ---------------- Login ----------------
 function initLogin(){
   const form = document.getElementById('loginForm');
   if(!form) return;
@@ -26,76 +25,70 @@ function initLogin(){
     const cls = fm.get('cls') || '';
     const roll = fm.get('roll') || '';
     const user = { id:'u-'+Date.now(), role, name, cls, roll };
-
     localStorage.setItem('user', JSON.stringify(user));
     db.collection('users').doc(user.id).set(user);
-
     if(role==='student') location.href='student.html';
     else if(role==='teacher') location.href='teacher.html';
     else location.href='admin.html';
   });
 }
 
-// ----------------- Student -----------------
+// ---------------- Student ----------------
 function initStudent(){
   const user = JSON.parse(localStorage.getItem('user'));
   if(!user || user.role!=='student'){ location.href='login.html'; return; }
   document.getElementById('greetStudent').innerText = `${user.name} — ${user.cls}`;
-
   const alertBox = document.getElementById('alertBox');
-  db.collection('drills')
-    .where('cls','in',[user.cls,'ALL'])
-    .onSnapshot(snapshot=>{
-      let html='No active drills';
-      snapshot.forEach(doc=>{
-        const drill = doc.data();
-        html = `<div class="card"><strong>${drill.type}</strong>: ${drill.message || ''}</div>`;
-      });
-      alertBox.innerHTML = html;
+  db.collection('drills').where('cls','in',[user.cls,'ALL']).onSnapshot(snapshot=>{
+    let html='No active drills';
+    snapshot.forEach(doc=>{
+      const drill = doc.data();
+      html=`<div class="card"><strong>${drill.type}</strong>: ${drill.message || ''} <button onclick="markSafe('${drill.id}')">I'm Safe</button></div>`;
     });
+    alertBox.innerHTML = html;
+  });
 
   const leaderboard = document.getElementById('leaderboard');
-  db.collection('responses')
-    .where('cls','==',user.cls)
-    .onSnapshot(snapshot=>{
-      const scores = {};
-      snapshot.forEach(doc=>{
-        const r = doc.data();
-        scores[r.name] = (scores[r.name] || 0) + 1;
-      });
-      let html='<table><tr><th>Student</th><th>Points</th></tr>';
-      for(const s in scores) html+=`<tr><td>${s}</td><td>${scores[s]}</td></tr>`;
-      html+='</table>';
-      leaderboard.innerHTML = html;
+  db.collection('responses').where('cls','==',user.cls).onSnapshot(snapshot=>{
+    const scores={};
+    snapshot.forEach(doc=>{
+      const r=doc.data();
+      scores[r.name]=(scores[r.name]||0)+1;
     });
+    let html='<table><tr><th>Student</th><th>Points</th></tr>';
+    for(const s in scores) html+=`<tr><td>${s}</td><td>${scores[s]}</td></tr>`;
+    html+='</table>';
+    leaderboard.innerHTML = html;
+  });
 }
 
-// ----------------- Teacher -----------------
+// ---------------- Teacher ----------------
 function initTeacher(){
   const user = JSON.parse(localStorage.getItem('user'));
   if(!user || user.role!=='teacher'){ location.href='login.html'; return; }
   document.getElementById('greetTeacher').innerText = `${user.name} — Teacher`;
-
   const form = document.getElementById('startDrillForm');
   const reportList = document.getElementById('reportList');
-
   form.addEventListener('submit', ev=>{
     ev.preventDefault();
     const fm = new FormData(form);
-    const type = fm.get('type');
-    const cls = fm.get('cls') || 'ALL';
-    const message = fm.get('message') || type;
-    const drill = { id:'d-'+Date.now(), type, cls, message, time: Date.now() };
+    const drill={ id:'d-'+Date.now(), type: fm.get('type'), cls: fm.get('cls')||'ALL', message: fm.get('message')||fm.get('type'), time: Date.now() };
     db.collection('drills').doc(drill.id).set(drill);
   });
-
   db.collection('responses').onSnapshot(snapshot=>{
     let html='<ul>';
     snapshot.forEach(doc=>{
-      const r = doc.data();
-      html += `<li>${r.name} (${r.cls}) responded to ${r.drill}</li>`;
+      const r=doc.data();
+      html+=`<li>${r.name} (${r.cls}) responded to ${r.drill}</li>`;
     });
-    html += '</ul>';
+    html+='</ul>';
     reportList.innerHTML = html;
   });
+}
+
+// ---------------- Student marks safe ----------------
+function markSafe(drillId){
+  const user = JSON.parse(localStorage.getItem('user'));
+  if(!user) return;
+  db.collection('responses').add({ drill: drillId, userId:user.id, name:user.name, cls:user.cls, time:Date.now() });
 }
