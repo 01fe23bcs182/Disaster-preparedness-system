@@ -1,53 +1,48 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Teacher Dashboard — SIH</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Teacher Dashboard — SIH</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header class="nav">
-      <a class="brand" href="index.html"><span class="logo">SIH</span> Teacher</a>
-      <div id="navUser"></div>
-    </header>
+<div class="container">
+<header class="nav">
+  <a class="brand" href="index.html"><span class="logo">SIH</span> Teacher</a>
+  <div id="navUser"></div>
+</header>
 
-    <main>
-      <h2 id="greetTeacher"></h2>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Start Drill / Send Alert</h3>
-          <form id="startDrillForm">
-            <label>Drill Type</label>
-            <select name="type">
-              <option value="Fire Drill">🔥 Fire Drill</option>
-              <option value="Earthquake Drill">🌍 Earthquake Drill</option>
-              <option value="Flood Drill">🌊 Flood Drill</option>
-              <option value="Closure Alert">📢 Closure Alert</option>
-            </select>
-            <label>Class</label>
-            <input name="cls" placeholder="ClassA">
-            <label>Message</label>
-            <input name="message" placeholder="Custom message">
-            <button type="submit" class="btn btn-primary">Start Drill</button>
-          </form>
-        </div>
-
-        <div class="card">
-          <h3>Live Reports</h3>
-          <div id="reportList">No reports yet.</div>
-        </div>
-      </div>
-    </main>
+<main>
+  <h2 id="greetTeacher"></h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Start Drill / Send Alert</h3>
+      <form id="startDrillForm">
+        <label>Drill Type</label>
+        <select name="type">
+          <option value="Fire Drill">🔥 Fire Drill</option>
+          <option value="Earthquake Drill">🌍 Earthquake Drill</option>
+          <option value="Flood Drill">🌊 Flood Drill</option>
+          <option value="Closure Alert">📢 Closure Alert</option>
+        </select>
+        <label>Class</label>
+        <input name="cls" placeholder="ClassA">
+        <label>Message</label>
+        <input name="message" placeholder="Custom message">
+        <button type="submit" class="btn btn-primary">Start Drill</button>
+      </form>
+    </div>
+    <div class="card">
+      <h3>Live Reports</h3>
+      <div id="reportList">No reports yet.</div>
+    </div>
   </div>
-
-  <script src="app.js"></script>
-  <script>
-    initTeacher();
-  </script>
+</main>
+</div>
+<script src="app.js"></script>
+<script>initTeacher();</script>
 </body>
 </html>
