@@ -1,29 +1,35 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SIH - Disaster Preparedness</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login - SIH</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header class="nav">
-      <a class="brand" href="index.html"><span class="logo">SIH</span> Disaster Ready</a>
-      <nav class="nav-links">
-        <a href="login.html">Login</a>
-      </nav>
-    </header>
-
-    <section class="hero">
-      <div class="hero-left">
-        <h1>Disaster Preparedness & Response Education System</h1>
-        <p>Training students and teachers for disaster readiness, real-time alerts, and safer schools.</p>
-        <div class="cta">
-          <a class="btn btn-primary" href="login.html">Get Started</a>
-        </div>
+  <div class="container center">
+    <h2>Login</h2>
+    <form id="loginForm" class="card" style="max-width:420px;width:100%">
+      <label>Role</label>
+      <select name="role" required>
+        <option value="student">Student</option>
+        <option value="teacher">Teacher</option>
+        <option value="admin">Admin</option>
+      </select>
+      <label>Name</label>
+      <input type="text" name="name" required>
+      <label>Class</label>
+      <input type="text" name="cls" placeholder="ClassA">
+      <label>Roll No (Students only)</label>
+      <input type="text" name="roll">
+      <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn btn-primary" type="submit">Login</button>
+        <a href="index.html" class="btn btn-outline" style="text-decoration:none;padding:8px 12px">Cancel</a>
       </div>
-    </section>
+    </form>
   </div>
 
   <script src="app.js" defer></script>
