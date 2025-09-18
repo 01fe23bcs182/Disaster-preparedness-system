@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Dashboard — SIH</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="admin">
+  <div class="container">
+    <header class="nav">
+      <a class="brand" href="index.html"><span class="logo">SIH</span> Admin</a>
+      <div id="navUser"></div>
+    </header>
+
+    <main>
+      <h2 id="greetAdmin">Admin</h2>
+
+      <section>
+        <h3>All Student Submissions</h3>
+        <div id="adminReports" class="card small">Loading...</div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
